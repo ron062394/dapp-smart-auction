@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Smart Auction System</title>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<meta charset="UTF-8" />
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+	<meta name="x-apple-disable-message-reformatting" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta content="telephone=no" name="format-detection" />
+	<script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" charset="utf-8" type="text/javascript">
+	</script>
+	<script defer src="index.js"></script>
+</head>
+
+<body>
+	<header>
+		<h1>CryptoBids <span>•</span> Web3 Smart Auction DApp</h1>
+	</header>
+	<div class="container">
+		<main>
+			<div class="item-hero">
+				<section class="item-container">
+					<div class="img-container">
+						<img id="item-img" src="https://legazpi.gov.ph/wp-content/uploads/2022/08/placeholder-68.png"
+							alt="Item Picture">
+
+					</div>
+					<div class="auction-container">
+						<div>
+							<!-- <h3>Auction</h3> -->
+							<div class="img-details">
+								<h2 class="item-details" id="item-title">[Add item]</h2>
+								<span>Seller:</span>
+								<div id="seller-address">0x0000000000000000000000000000000000000000</div>
+								<span>Highest Bidder:</span>
+								<div id="highest-bidder-address">0x0000000000000000000000000000000000000000</div>
+							</div>
+							<div id="auction-status" class="status">
+
+							</div>
+
+							<div class="divider"> </div>
+							<!-- <img src="https://cdn-icons-png.flaticon.com/512/2581/2581347.png" alt="bid icon"><br> -->
+							<span>Enter Bid:</span>
+							<input type="number" name="bid_amount" id="bid_amount" min="0.05" step="0.01" placeholder="ETH 0.00"> <br>
+							<button class="bid-button" onclick="_placeBid()">Place bid</button>
+						</div>
+					</div>
+
+				</section>
+			</div>
+			<section class="auction-information">
+				<h2>Auction Details</h2>
+				<div>
+					<div class="infos">
+						<div class="info-style">
+							<span>Starting bid: </span>
+							<span>0.05 ETH</span>
+						</div>
+
+						<div class="info-style">
+							<span>Minimum Increment: </span>
+							<span>0.01 ETH</span>
+						</div>
+
+						<div class="info-style">
+							<span>Time Left:</span>
+							<span id="timer-count">- -</span>
+						</div>
+						<div class="info-style">
+							<span>Highest Bid</span>
+							<span id="highest-bid">0.00 ETH</span>
+						</div>
+					</div>
+					<div class="info-style">
+						<span>Auction Description:</span>
+						<div class="info-desc" id="info-desc">[ADD ITEM] </div>
+					</div>
+
+				</div>
+
+				<div class="tabs">
+					<input id="tabs-1" type="checkbox">
+					<label for="tabs-1">Shipping Status <a title="Next" class="arrow next"> &raquo; </a></label>
+					<div class="content">
+						<section class="purchase-status">
+							<div class="timeline">
+								<div class="timeline-item processing" id="border1">
+									<div class="icon">...</div>
+									<span class="status">Processing</span>
+									<p>Your order is being prepared for shipment.</p>
+								</div>
+								<div class="timeline-item on-transit" id="border2">
+									<div class="icon">→</div>
+									<span class="status">In Transit</span>
+									<p>Your order is on its way to your address.</p>
+								</div>
+								<div class="timeline-item delivered" id="border3">
+									<div class="icon">✔</div>
+									<span class="status">Delivered</span>
+									<p>Your order has been delivered to your address.</p>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+				<div class="tabs">
+					<input id="tabs-2" type="checkbox">
+					<label for="tabs-2">Seller Options <a title="Next" class="arrow next"> &raquo; </a></label>
+					<div class="content">
+						<div class="seller-details">
+							<span>Enter Auction Details:</span>
+							<div class="auction-time">
+								<span>
+									<input type="text" name="item_title" id="_item-title" placeholder="Enter item title">
+
+								</span>
+								<span>
+									<input type="text" name="image_link" id="image-link" placeholder="Enter image link">
+									<input type="number" name="auction_time" id="auction_time" min="0.05" step="0.01"
+										placeholder="eg. 10 Days">
+								</span>
+								<textarea type="text" name="item_description" id="_item-description"
+									placeholder="Enter item description" rows="4" cols="50"></textarea>
+
+
+								<button class="set_time" onclick="startAuction()">Submit</button>
+							</div>
+
+							<div class="public-key">
+								<h3>Seller Public Key</h3>
+								<p id="seller-address2">0x0000000000000000000000000000000000000000</p>
+							</div>
+							<div class="combo-button">
+								<button class="test-value" onclick="_endAuction()">End Auction</button>
+								<button class="send-button" onclick="_sendItem()">Send Item</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tabs">
+					<input id="tabs-3" type="checkbox">
+					<label for="tabs-3">Bidder Options <a title="Next" class="arrow next"> &raquo; </a></label>
+					<div class="content">
+						<div class="buyer-details">
+							<div class="item-details">
+								<h3>Item Details</h3>
+								<p><span>Item Name:</span>
+								<div id="item-title2"> [Add item]</div>
+								</p>
+								<p><span>Item Description: </span>
+								<div id="item-description"> [Add item]</div>
+								</p>
+							</div>
+							<div class="divider"> </div>
+							<div class="public-key">
+								<h3>Highest Bidder</h3>
+								<p id="highest-bidder-address2">0x0000000000000000000000000000000000000000</p>
+							</div>
+							<div class="combo-button">
+								<button class="receive-button" onclick="_confirmReceived()">Receive Item</button>
+								<button class="receive-button" onclick="_withdraw()">Withdraw Bid</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</main>
+		<footer>
+			<span>onecodecamp &copy; 2023 Smart Auction System</span>
+		</footer>
+	</div>
+</body>
+
+</html>
